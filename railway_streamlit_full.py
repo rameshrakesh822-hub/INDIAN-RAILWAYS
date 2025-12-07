@@ -318,7 +318,7 @@ def page_coaches():
         c3, c4 = st.columns(2)
         last = c3.text_input("Last maintenance (dd-mm-YYYY)")
         km_run = c4.text_input("KM Run", value="0")
-        status = st.selectbox("Status", ["Active", "Inactive", "Removed"])
+        status = st.selectbox("Status", ["Active", "Inactive", "Removed"],key ="1")
         if st.form_submit_button("Save Coach"):
             if not coach_id.strip():
                 show_error("Coach ID is required.")
@@ -348,7 +348,7 @@ def page_coaches():
         cur.execute("SELECT coach_id FROM coaches ORDER BY coach_id")
         options = [r["coach_id"] for r in cur.fetchall()]
 
-    sel = st.selectbox("Select coach to edit/delete", [""] + options)
+    sel = st.selectbox("Select coach to edit/delete", [""] + options,key="2")
     if sel:
         with get_conn() as conn:
             cur = conn.cursor()
@@ -365,7 +365,8 @@ def page_coaches():
                     "Status",
                     ["Active", "Inactive", "Removed"],
                     index=0 if (r["status"] or "Active") == "Active"
-                    else (1 if (r["status"] or "") == "Inactive" else 2)
+                    else (1 if (r["status"] or "") == "Inactive" else 2),
+                    key="3"
                 )
                 if st.form_submit_button("Save changes"):
                     try:
@@ -442,7 +443,7 @@ def page_trains():
         cur = conn.cursor()
         cur.execute("SELECT train_no FROM trains ORDER BY train_no")
         options = [r["train_no"] for r in cur.fetchall()]
-    sel = st.selectbox("Select train", [""] + options)
+    sel = st.selectbox("Select train", [""] + options,key="4")
     if sel:
         with get_conn() as conn:
             cur = conn.cursor()
@@ -489,8 +490,8 @@ def page_assign():
     coach_options = [r['coach_id'] for r in coaches]
 
     c1, c2 = st.columns(2)
-    train_sel = c1.selectbox("Select Train", [""] + train_options)
-    coach_sel = c2.selectbox("Select Coach", [""] + coach_options)
+    train_sel = c1.selectbox("Select Train", [""] + train_options,key="5")
+    coach_sel = c2.selectbox("Select Coach", [""] + coach_options,key="6")
 
     if st.button("Assign"):
         if not train_sel:
@@ -539,7 +540,7 @@ def page_train_coaches():
         cur.execute("SELECT train_no, train_name FROM trains ORDER BY train_no")
         trains = cur.fetchall()
     train_options = [f"{r['train_no']} — {r['train_name']}" for r in trains]
-    sel = st.selectbox("Select train", [""] + train_options)
+    sel = st.selectbox("Select train", [""] + train_options,key="7")
 
     if sel:
         train_no = sel.split(" — ")[0].strip()
@@ -586,8 +587,8 @@ def page_record_maintenance():
         trains = [f"{r['train_no']} — {r['train_name']}" for r in cur.fetchall()]
 
     c1, c2 = st.columns(2)
-    coach_sel = c1.selectbox("Select Coach", [""] + coaches)
-    train_sel = c2.selectbox("Train (optional)", [""] + trains)
+    coach_sel = c1.selectbox("Select Coach", [""] + coaches,key="8")
+    train_sel = c2.selectbox("Train (optional)", [""] + trains,key="9")
     mtype = st.text_input("Maintenance Type / Task")
     notes = st.text_area("Notes (optional)", height=120)
     date_val = st.text_input("Date (dd-mm-YYYY)", value=datetime.now().strftime("%d-%m-%Y"))
@@ -635,9 +636,9 @@ def page_history():
 
     # Filters
     c1, c2, c3 = st.columns(3)
-    train_filter = c1.selectbox("Filter by Train", ["All"] + sorted(df["train_no"].dropna().astype(str).unique()))
-    coach_filter = c2.selectbox("Filter by Coach", ["All"] + sorted(df["coach_id"].dropna().astype(str).unique()))
-    eng_filter = c3.selectbox("Filter by Engineer", ["All"] + sorted(df["engineer"].dropna().astype(str).unique()))
+    train_filter = c1.selectbox("Filter by Train", ["All"] + sorted(df["train_no"].dropna().astype(str).unique()),key="10")
+    coach_filter = c2.selectbox("Filter by Coach", ["All"] + sorted(df["coach_id"].dropna().astype(str).unique()),key="11")
+    eng_filter = c3.selectbox("Filter by Engineer", ["All"] + sorted(df["engineer"].dropna().astype(str).unique()),key="12")
 
     df_filt = df.copy()
     if train_filter != "All":
@@ -1106,7 +1107,7 @@ def page_coaches():
         c3, c4 = st.columns(2)
         last = c3.text_input("Last maintenance (dd-mm-YYYY)")
         km_run = c4.text_input("KM Run", value="0")
-        status = st.selectbox("Status", ["Active", "Inactive", "Removed"])
+        status = st.selectbox("Status", ["Active", "Inactive", "Removed"],key="13")
         if st.form_submit_button("Save Coach"):
             if not coach_id.strip():
                 show_error("Coach ID is required.")
@@ -1136,7 +1137,7 @@ def page_coaches():
         cur.execute("SELECT coach_id FROM coaches ORDER BY coach_id")
         options = [r["coach_id"] for r in cur.fetchall()]
 
-    sel = st.selectbox("Select coach to edit/delete", [""] + options)
+    sel = st.selectbox("Select coach to edit/delete", [""] + options,key="14")
     if sel:
         with get_conn() as conn:
             cur = conn.cursor()
@@ -1153,7 +1154,8 @@ def page_coaches():
                     "Status",
                     ["Active", "Inactive", "Removed"],
                     index=0 if (r["status"] or "Active") == "Active"
-                    else (1 if (r["status"] or "") == "Inactive" else 2)
+                    else (1 if (r["status"] or "") == "Inactive" else 2),
+                    key="status" 
                 )
                 if st.form_submit_button("Save changes"):
                     try:
@@ -1230,7 +1232,7 @@ def page_trains():
         cur = conn.cursor()
         cur.execute("SELECT train_no FROM trains ORDER BY train_no")
         options = [r["train_no"] for r in cur.fetchall()]
-    sel = st.selectbox("Select train", [""] + options)
+    sel = st.selectbox("Select train", [""] + options,key="15")
     if sel:
         with get_conn() as conn:
             cur = conn.cursor()
@@ -1277,8 +1279,8 @@ def page_assign():
     coach_options = [r['coach_id'] for r in coaches]
 
     c1, c2 = st.columns(2)
-    train_sel = c1.selectbox("Select Train", [""] + train_options)
-    coach_sel = c2.selectbox("Select Coach", [""] + coach_options)
+    train_sel = c1.selectbox("Select Train", [""] + train_options,key="16")
+    coach_sel = c2.selectbox("Select Coach", [""] + coach_options,key="17")
 
     if st.button("Assign"):
         if not train_sel:
@@ -1327,7 +1329,7 @@ def page_train_coaches():
         cur.execute("SELECT train_no, train_name FROM trains ORDER BY train_no")
         trains = cur.fetchall()
     train_options = [f"{r['train_no']} — {r['train_name']}" for r in trains]
-    sel = st.selectbox("Select train", [""] + train_options)
+    sel = st.selectbox("Select train", [""] + train_options,key="18")
 
     if sel:
         train_no = sel.split(" — ")[0].strip()
@@ -1374,8 +1376,8 @@ def page_record_maintenance():
         trains = [f"{r['train_no']} — {r['train_name']}" for r in cur.fetchall()]
 
     c1, c2 = st.columns(2)
-    coach_sel = c1.selectbox("Select Coach", [""] + coaches)
-    train_sel = c2.selectbox("Train (optional)", [""] + trains)
+    coach_sel = c1.selectbox("Select Coach", [""] + coaches,key="19")
+    train_sel = c2.selectbox("Train (optional)", [""] + trains,key="20")
     mtype = st.text_input("Maintenance Type / Task")
     notes = st.text_area("Notes (optional)", height=120)
     date_val = st.text_input("Date (dd-mm-YYYY)", value=datetime.now().strftime("%d-%m-%Y"))
@@ -1423,9 +1425,9 @@ def page_history():
 
     # Filters
     c1, c2, c3 = st.columns(3)
-    train_filter = c1.selectbox("Filter by Train", ["All"] + sorted(df["train_no"].dropna().astype(str).unique()))
-    coach_filter = c2.selectbox("Filter by Coach", ["All"] + sorted(df["coach_id"].dropna().astype(str).unique()))
-    eng_filter = c3.selectbox("Filter by Engineer", ["All"] + sorted(df["engineer"].dropna().astype(str).unique()))
+    train_filter = c1.selectbox("Filter by Train", ["All"] + sorted(df["train_no"].dropna().astype(str).unique()),key="21")
+    coach_filter = c2.selectbox("Filter by Coach", ["All"] + sorted(df["coach_id"].dropna().astype(str).unique()),key="22")
+    eng_filter = c3.selectbox("Filter by Engineer", ["All"] + sorted(df["engineer"].dropna().astype(str).unique()),key="23")
 
     df_filt = df.copy()
     if train_filter != "All":
