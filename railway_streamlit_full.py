@@ -62,6 +62,15 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+st.markdown("""
+<style>
+/* Add space between sidebar radio items */
+section[data-testid="stSidebar"] div[role="radiogroup"] > label {
+    margin-bottom: 10px;
+    padding: 6px 4px;
+}
+</style>
+""", unsafe_allow_html=True)
 
 
 # ✅ JWT SECRET (MOVE TO ENV LATER FOR SECURITY)
