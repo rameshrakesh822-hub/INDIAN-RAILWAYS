@@ -74,9 +74,7 @@ section[data-testid="stSidebar"] div[role="radiogroup"] > label {
 st.markdown("""
 <style>
 section[data-testid="stSidebar"],
-section[data-testid="stSidebar"] > div {
-    background-color:  #000000;   /* Dark UI background */
-}
+
 
 section[data-testid="stSidebar"] {
     border-right: 1px solid ;
@@ -86,9 +84,7 @@ section[data-testid="stSidebar"] {
 st.markdown("""
 <style>
 section[data-testid="stSidebar"] label,
-section[data-testid="stSidebar"] div {
-    color: inherit;
-}
+
 </style>
 """, unsafe_allow_html=True)
 
