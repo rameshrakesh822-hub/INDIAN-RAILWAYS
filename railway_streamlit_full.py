@@ -27,8 +27,50 @@ import pandas as pd
 import io
 import os
 import base64
-SECRET_KEY = "soorya123"   # ⚠️ SAME as Node.js JWT secret
 
+# ✅ PAGE CONFIG (PC + MOBILE FIX)
+st.set_page_config(
+    page_title="Railway Maintenance System",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# ✅ GLOBAL RESPONSIVE CSS (DO NOT REMOVE)
+st.markdown("""
+<style>
+.block-container {
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .stColumns {
+        flex-direction: column !important;
+        gap: 1rem;
+    }
+
+    .stMetric {
+        text-align: center;
+    }
+
+    h1, h2, h3 {
+        text-align: center;
+    }
+
+    button, input {
+        width: 100%;
+    }
+}
+
+[data-testid="stDataFrame"] {
+    width: 100% !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# ✅ JWT SECRET (MOVE TO ENV LATER FOR SECURITY)
+SECRET_KEY = "soorya123"   # same as Node.js JWT secret
+
+# ================= AUTH HANDLING =================
 
 query_params = st.query_params
 token = query_params.get("token")
@@ -36,7 +78,7 @@ token = query_params.get("token")
 if isinstance(token, list):
     token = token[0]
 
-# ✅ STEP 1: If user already authenticated in session, DO NOT re-check token
+# ✅ Only validate token once per session
 if "authenticated_user" not in st.session_state:
 
     if not token:
@@ -56,12 +98,17 @@ if "authenticated_user" not in st.session_state:
 
         st.success(f"✅ Welcome {username}")
 
-        # ✅ OPTIONAL: Clear token ONLY AFTER saving session
-        # st.query_params.clear()
+        # ✅ Clean URL ONCE ONLY (OPTIONAL)
+        if "url_cleaned" not in st.session_state:
+            # st.query_params.clear()   # uncomment if you want clean URL
+            st.session_state.url_cleaned = True
 
     except:
         st.error("🚫 Session expired or invalid. Please login again.")
         st.stop()
+
+# ✅ USE THIS VARIABLE EVERYWHERE
+username = st.session_state.authenticated_user
 
 # ✅ STEP 2: Use session data everywhere else
 username = st.session_state.authenticated_user
