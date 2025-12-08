@@ -75,7 +75,7 @@ st.markdown("""
 <style>
 section[data-testid="stSidebar"],
 section[data-testid="stSidebar"] > div {
-    background-color: #0f172a;   /* Dark UI background */
+    background-color:  #000000;   /* Dark UI background */
 }
 
 section[data-testid="stSidebar"] {
