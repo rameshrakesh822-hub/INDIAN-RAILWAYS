@@ -79,7 +79,7 @@ section[data-testid="stSidebar"] > div {
 }
 
 section[data-testid="stSidebar"] {
-    border-right: 1px solid #1e293b;
+    border-right: 1px solid ;
 }
 </style>
 """, unsafe_allow_html=True)
